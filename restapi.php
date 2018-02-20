@@ -167,7 +167,13 @@ function ws_init_custom() {
 	);
 }
 
-
+/**
+* account.info method
+*
+* @param 	string $username Elgg Username
+* @return string JSON Array. Status: 0 = Success, -1 = Error. Result: User Array
+*
+**/
 function account_info($username) {
 	error_log("PARTICIPA INFO BY USERNAME");
 	error_log("Username: ".$username);
@@ -186,6 +192,13 @@ function account_info($username) {
 	);
 }
 
+/**
+* account.infobymail method
+*
+* @param 	string $email Elgg User E-mail
+* @return string JSON Array. Status: 0 = Success, -1 = Error. Result: User Array
+*
+**/
 function account_infobymail($email) {
 	error_log("PARTICIPA INFO BY MAIL");
 	error_log("Email: ".$email);
@@ -215,9 +228,15 @@ function account_infobymail($email) {
 }
 
 /**
+* account.create method
 *
+* @param 	string	 	$username New Username
+* @param 	string 		$password New Plain Password
+* @param 	string 		$name New Real Name
+* @param 	string 		$email New email address
+* @param 	boolean 	$validate 1=Validated 0=Not authorized
+* @return string 		JSON Array. Status: 0 = Success, -1 = Error. Result: $guid (User Unique ID)
 *
-*	return int|false  User ID or false if error
 **/
 function account_create($username, $password, $name, $email, $validate=true){
 	error_log("PARTICIPA CREATE");
@@ -247,6 +266,13 @@ function account_create($username, $password, $name, $email, $validate=true){
 	return $user_array;
 }
 
+/**
+* account.validate method
+*
+* @param 	string $username Elgg Username
+* @return string JSON Array. Status: 0 = Success, -1 = Error. Result: User Array
+*
+**/
 function account_validate($username){
 	error_log("PARTICIPA VALIDATE");
 	error_log("Username: ".$username);
@@ -272,6 +298,13 @@ function account_validate($username){
 	return $user_array;
 }
 
+/**
+* account.delete method
+*
+* @param 	string $username Elgg Username
+* @return string JSON Array. Status: 0 = Success, -1 = Error. Result: true = Success, false = Error
+*
+**/
 function account_delete($username){
 	error_log("PARTICIPA DELETE");
 	error_log("Username: ".$username);
@@ -284,6 +317,13 @@ function account_delete($username){
 	return $user->delete();
 }
 
+/**
+* account.ban method
+*
+* @param 	string $username Elgg Username
+* @return string JSON Array. Status: 0 = Success, -1 = Error. Result: true = Success, false = Error
+*
+**/
 function account_ban($username){
 	error_log("PARTICIPA DELETE");
 	error_log("Username: ".$username);
@@ -296,6 +336,16 @@ function account_ban($username){
 	return ban_user($user->guid, "Created by Participa");
 }
 
+/**
+* account.update method
+*
+* @param 	string	 	$username User's Username to be updated
+* @param 	string 		$password New password. If NULL, no changes
+* @param 	string 		$name New name. If NULL, no changes
+* @param 	string 		$email New email address. If NULL, no changes
+* @return string 		JSON Array. Status: 0 = Success, -1 = Error. Result: boolean true = Success, false = Update Error
+*
+**/
 function account_update($username, $password=null, $name=null, $email=null){
 	error_log("PARTICIPA UPDATE");
 	error_log("Username: ".$username);
