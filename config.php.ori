@@ -1,0 +1,8 @@
+<?php
+
+define('xmpp_url', ''); // Openfire API URL
+define('owncloud_url', ''); // Owncloud API URL
+define('elgg_admin', ''); // elgg admin username
+
+
+ ?>
