@@ -18,7 +18,7 @@ function ws_init_custom() {
 	elgg_load_library('elgg:ws:api_user');
 	elgg_load_library('elgg:ws:tokens');
 	elgg_register_page_handler('services', 'ws_page_handler');
-
+error_log("POST: ".json_encode($_POST, true));
 	elgg_ws_expose_function(
 		"account.info",
 		"account_info",
@@ -277,6 +277,8 @@ function account_validate($username){
 	error_log("PARTICIPA VALIDATE");
 	error_log("Username: ".$username);
 	error_log("----------------");
+	$admin = get_user_by_username(elgg_admin);
+	login($admin, true);
 	$user = get_user_by_username($username);
 	error_log("User Object:");
 	error_log(json_encode($user));
@@ -284,17 +286,19 @@ function account_validate($username){
 		return false;
 	error_log("User Banned? ".$user->banned);
 	error_log("User guid: " . $user->guid);
-	$validated = ($user->banned == "no")?true:false;
+
+	$validated = $user->unban();
+	error_log("User Banned? ".$validated);
+	$validated = ($validated == true)?true:false;
+
 	$user_array = array(
-	  'guid' => $user->guid,
-	  'username' => $user->username,
-	  'name' => $user->name,
-	  'email' => $user->email,
-	  'validated' => $validated
+		'guid' => $user->guid,
+		'username' => $user->username,
+		'name' => $user->name,
+		'email' => $user->email,
+		'validated' => $validated
 	);
-	/*if (unban_user($user->guid))
-		return $user_array;
-	else*/
+
 	return $user_array;
 }
 
@@ -325,7 +329,7 @@ function account_delete($username){
 *
 **/
 function account_ban($username){
-	error_log("PARTICIPA DELETE");
+	error_log("PARTICIPA BAN");
 	error_log("Username: ".$username);
 	error_log("----------------");
 	$admin = get_user_by_username(elgg_admin);
@@ -352,6 +356,7 @@ function account_update($username, $password=null, $name=null, $email=null){
 	error_log("Password: ".$password);
 	error_log("Name: ".$name);
 	error_log("Email: ".$email);
+	error_log("Admin: ".elgg_admin);
 	error_log("----------------");
 
 	$admin = get_user_by_username(elgg_admin);
